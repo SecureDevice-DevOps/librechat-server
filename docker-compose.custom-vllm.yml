@@ -1,0 +1,11 @@
+# docker-compose.override.yml
+services:
+  api:
+    extra_hosts:
+      - "${VLLM_HOST_DNS_MAPPING}" # For some reason Docker cannot resolve the vLLM server IP address, so we need to add it here.
+    environment:
+      - NODE_TLS_REJECT_UNAUTHORIZED=0 # This is needed to disable SSL verification. We use self-signed certificates.
+    volumes:
+      - type: bind
+        source: ./librechat.yaml
+        target: /app/librechat.yaml
